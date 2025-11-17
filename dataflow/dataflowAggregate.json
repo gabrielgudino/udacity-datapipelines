@@ -29,7 +29,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "SQLSummarySynapse",
+						"referenceName": "AzureSynapseSummary",
 						"type": "DatasetReference"
 					},
 					"name": "SQLSummarySynapse"
