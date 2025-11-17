@@ -45,7 +45,7 @@
 		},
 		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "admin_db_nycpayroll"
+			"defaultValue": "etl_user"
 		},
 		"containerUri": {
 			"type": "string",

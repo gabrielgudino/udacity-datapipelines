@@ -296,8 +296,7 @@
 									"SQLNycPayrollData2021": {},
 									"SQLNycPayrollSumary": {},
 									"dirstaging": {}
-								},
-								"linkedServiceParameters": {}
+								}
 							},
 							"staging": {
 								"linkedService": {

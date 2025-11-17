@@ -45,7 +45,7 @@
 		},
 		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "admin_db_nycpayroll"
+			"defaultValue": "etl_user"
 		}
 	},
 	"variables": {
@@ -283,8 +283,7 @@
 									"SQLNycPayrollData2021": {},
 									"SQLNycPayrollSumary": {},
 									"dirstaging": {}
-								},
-								"linkedServiceParameters": {}
+								}
 							},
 							"staging": {
 								"linkedService": {
@@ -957,6 +956,42 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SQLSummarySynapse')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSynapseAnalytics1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "FiscalYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AgencyName",
+						"type": "varchar"
+					},
+					{
+						"name": "TotalPaid",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "NYC_Payroll_Summary"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TitleMaster')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1043,7 +1078,7 @@
 				"typeProperties": {
 					"server": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_server')]",
 					"database": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
+					"encrypt": "optional",
 					"trustServerCertificate": false,
 					"authenticationType": "SQL",
 					"userName": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]",
@@ -1137,14 +1172,14 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "SQLSummarydirstaging",
+								"referenceName": "SQLSummarySynapse",
 								"type": "DatasetReference"
 							},
 							"name": "SQLNycPayrollSumary"
 						},
 						{
 							"dataset": {
-								"referenceName": "SQLSummarydirstaging",
+								"referenceName": "SQLSummarySynapse",
 								"type": "DatasetReference"
 							},
 							"name": "dirstaging"
@@ -1319,7 +1354,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2020')]",
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2021')]",
-				"[concat(variables('factoryId'), '/datasets/SQLSummarydirstaging')]"
+				"[concat(variables('factoryId'), '/datasets/SQLSummarySynapse')]"
 			]
 		},
 		{
@@ -1614,42 +1649,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/TitleMaster')]",
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollTitleMd')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQLSummarydirstaging')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSynapseAnalytics1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "FiscalYear",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AgencyName",
-						"type": "varchar"
-					},
-					{
-						"name": "TotalPaid",
-						"type": "float",
-						"precision": 15
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "NYC_Payroll_Summary"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
 			]
 		}
 	]
