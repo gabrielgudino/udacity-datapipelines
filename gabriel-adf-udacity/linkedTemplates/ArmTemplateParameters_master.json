@@ -11,9 +11,6 @@
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
-		"AzureSynapseAnalytics1_password": {
-			"value": ""
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://udacityproyect55.dfs.core.windows.net/"
 		},
@@ -31,9 +28,6 @@
 		},
 		"AzureSynapseAnalytics1_properties_typeProperties_database": {
 			"value": "udacity"
-		},
-		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
-			"value": "etl_user"
 		},
 		"containerUri": {
 			"value": ""

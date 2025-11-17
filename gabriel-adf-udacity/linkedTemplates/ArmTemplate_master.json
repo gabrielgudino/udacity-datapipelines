@@ -15,10 +15,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
 		},
-		"AzureSynapseAnalytics1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics1'"
-		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://udacityproyect55.dfs.core.windows.net/"
@@ -42,10 +38,6 @@
 		"AzureSynapseAnalytics1_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "udacity"
-		},
-		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "etl_user"
 		},
 		"containerUri": {
 			"type": "string",
@@ -80,9 +72,6 @@
 					"AzureSqlDatabase1_password": {
 						"value": "[parameters('AzureSqlDatabase1_password')]"
 					},
-					"AzureSynapseAnalytics1_password": {
-						"value": "[parameters('AzureSynapseAnalytics1_password')]"
-					},
 					"AzureDataLakeStorage1_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
@@ -100,9 +89,6 @@
 					},
 					"AzureSynapseAnalytics1_properties_typeProperties_database": {
 						"value": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]"
-					},
-					"AzureSynapseAnalytics1_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]"
 					}
 				}
 			},
