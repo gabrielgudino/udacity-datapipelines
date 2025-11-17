@@ -28,10 +28,6 @@
 					"name": "SQLNycPayrollSumary"
 				},
 				{
-					"dataset": {
-						"referenceName": "dirstaging",
-						"type": "DatasetReference"
-					},
 					"name": "dirstaging"
 				}
 			],
@@ -181,11 +177,10 @@
 				"aggregateTotalPaid sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     truncate: true,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> dirstaging"
+				"     skipDuplicateMapOutputs: true,",
+				"     preCommands: [],",
+				"     postCommands: []) ~> dirstaging"
 			]
 		}
 	}
