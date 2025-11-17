@@ -1,5 +1,5 @@
 {
-	"name": "SQLSummarydirstaging",
+	"name": "SQLSummarySynapse",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSynapseAnalytics1",

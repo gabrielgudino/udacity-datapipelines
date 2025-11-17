@@ -22,14 +22,14 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SQLSummarydirstaging",
+						"referenceName": "SQLSummarySynapse",
 						"type": "DatasetReference"
 					},
 					"name": "SQLNycPayrollSumary"
 				},
 				{
 					"dataset": {
-						"referenceName": "SQLSummarydirstaging",
+						"referenceName": "SQLSummarySynapse",
 						"type": "DatasetReference"
 					},
 					"name": "dirstaging"
