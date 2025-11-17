@@ -6,8 +6,9 @@
 		"typeProperties": {
 			"server": "nypayroll-gg.sql.azuresynapse.net",
 			"database": "udacity",
-			"encrypt": "mandatory",
+			"encrypt": "optional",
 			"trustServerCertificate": false,
+			"hostNameInCertificate": "gabriel-adf-udacity",
 			"authenticationType": "SystemAssignedManagedIdentity"
 		}
 	},
