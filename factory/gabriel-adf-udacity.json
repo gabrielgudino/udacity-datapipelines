@@ -1,0 +1,9 @@
+{
+	"name": "gabriel-adf-udacity",
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "192003e2-dfd6-4297-b84c-f673770c8881",
+		"tenantId": "4ff7f3bf-2f37-40f1-bb75-2a78cd0f26f6"
+	}
+}
