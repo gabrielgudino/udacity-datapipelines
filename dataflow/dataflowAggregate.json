@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "SQLSummarySynapse",
+						"referenceName": "SQLNycPayrollSumary",
 						"type": "DatasetReference"
 					},
 					"name": "SQLNycPayrollSumary"
@@ -32,7 +32,7 @@
 						"referenceName": "SQLSummarySynapse",
 						"type": "DatasetReference"
 					},
-					"name": "dirstaging"
+					"name": "SQLSummarySynapse"
 				}
 			],
 			"transformations": [
@@ -175,7 +175,6 @@
 				"     upsertable:false,",
 				"     truncate:true,",
 				"     format: 'table',",
-				"     staged: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
@@ -197,7 +196,7 @@
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     preCommands: [],",
-				"     postCommands: []) ~> dirstaging"
+				"     postCommands: []) ~> SQLSummarySynapse"
 			]
 		}
 	}
