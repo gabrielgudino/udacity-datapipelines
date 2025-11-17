@@ -193,6 +193,13 @@
 							"dataflow_param_fiscalyear": 2020
 						}
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "AzureDataLakeStorage1",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "adlsnycpayroll-gabriel-g/dirstaging"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"

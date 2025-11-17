@@ -28,6 +28,10 @@
 					"name": "SQLNycPayrollSumary"
 				},
 				{
+					"dataset": {
+						"referenceName": "SQLSummarydirstaging",
+						"type": "DatasetReference"
+					},
 					"name": "dirstaging"
 				}
 			],
@@ -177,9 +181,21 @@
 				"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
 				"aggregateTotalPaid sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     truncate: true,",
+				"     input(",
+				"          FiscalYear as integer,",
+				"          AgencyName as string,",
+				"          TotalPaid as double",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     staged: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
 				"     preCommands: [],",
 				"     postCommands: []) ~> dirstaging"
 			]
