@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
 		},
+		"AzureSynapseAnalytics1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSynapseAnalytics1'"
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://udacityproyect55.dfs.core.windows.net/"
@@ -28,6 +32,18 @@
 			"defaultValue": "db_nycpayroll"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "admin_db_nycpayroll"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "nypayroll-gg.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "udacity"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "admin_db_nycpayroll"
 		}
@@ -267,9 +283,16 @@
 									"SQLNycPayrollData2021": {},
 									"SQLNycPayrollSumary": {},
 									"dirstaging": {}
-								}
+								},
+								"linkedServiceParameters": {}
 							},
-							"staging": {},
+							"staging": {
+								"linkedService": {
+									"referenceName": "AzureDataLakeStorage1",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "adlsnycpayroll-gabriel-g/dirstaging"
+							},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -295,7 +318,8 @@
 				"[concat(variables('factoryId'), '/dataflows/dataflowTitleMaster')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflowPayroll2020')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflowPayroll2021')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflowAggregate')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflowAggregate')]",
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
 			]
 		},
 		{
@@ -971,34 +995,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dirstaging')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"folderPath": "dirstaging",
-						"fileSystem": "adlsnycpayroll-gabriel-g"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": false,
-					"quoteChar": null
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -1032,6 +1028,28 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('AzureSqlDatabase1_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSynapseAnalytics1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"server": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSynapseAnalytics1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSynapseAnalytics1_password')]"
 					}
 				}
 			},
@@ -1119,14 +1137,14 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "SQLNycPayrollSumary",
+								"referenceName": "SQLSummarydirstaging",
 								"type": "DatasetReference"
 							},
 							"name": "SQLNycPayrollSumary"
 						},
 						{
 							"dataset": {
-								"referenceName": "dirstaging",
+								"referenceName": "SQLSummarydirstaging",
 								"type": "DatasetReference"
 							},
 							"name": "dirstaging"
@@ -1272,25 +1290,36 @@
 						"     upsertable:false,",
 						"     truncate:true,",
 						"     format: 'table',",
+						"     staged: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
 						"aggregateTotalPaid sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     truncate: true,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
+						"     input(",
+						"          FiscalYear as integer,",
+						"          AgencyName as string,",
+						"          TotalPaid as double",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     truncate:true,",
+						"     format: 'table',",
+						"     staged: true,",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> dirstaging"
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     preCommands: [],",
+						"     postCommands: []) ~> dirstaging"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2020')]",
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2021')]",
-				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollSumary')]",
-				"[concat(variables('factoryId'), '/datasets/dirstaging')]"
+				"[concat(variables('factoryId'), '/datasets/SQLSummarydirstaging')]"
 			]
 		},
 		{
@@ -1585,6 +1614,42 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/TitleMaster')]",
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollTitleMd')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQLSummarydirstaging')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSynapseAnalytics1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "FiscalYear",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AgencyName",
+						"type": "varchar"
+					},
+					{
+						"name": "TotalPaid",
+						"type": "float",
+						"precision": 15
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "NYC_Payroll_Summary"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSynapseAnalytics1')]"
 			]
 		}
 	]

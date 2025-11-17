@@ -11,6 +11,9 @@
 		"AzureSqlDatabase1_password": {
 			"value": ""
 		},
+		"AzureSynapseAnalytics1_password": {
+			"value": ""
+		},
 		"AzureDataLakeStorage1_properties_typeProperties_url": {
 			"value": "https://udacityproyect55.dfs.core.windows.net/"
 		},
@@ -21,6 +24,15 @@
 			"value": "db_nycpayroll"
 		},
 		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "admin_db_nycpayroll"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_server": {
+			"value": "nypayroll-gg.sql.azuresynapse.net"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_database": {
+			"value": "udacity"
+		},
+		"AzureSynapseAnalytics1_properties_typeProperties_userName": {
 			"value": "admin_db_nycpayroll"
 		},
 		"containerUri": {
