@@ -282,7 +282,7 @@
 									"SQLNycPayrollData2020": {},
 									"SQLNycPayrollData2021": {},
 									"SQLNycPayrollSumary": {},
-									"dirstaging": {}
+									"SQLSummarySynapse": {}
 								}
 							},
 							"staging": {
@@ -1172,7 +1172,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "SQLSummarySynapse",
+								"referenceName": "SQLNycPayrollSumary",
 								"type": "DatasetReference"
 							},
 							"name": "SQLNycPayrollSumary"
@@ -1182,7 +1182,7 @@
 								"referenceName": "SQLSummarySynapse",
 								"type": "DatasetReference"
 							},
-							"name": "dirstaging"
+							"name": "SQLSummarySynapse"
 						}
 					],
 					"transformations": [
@@ -1325,7 +1325,6 @@
 						"     upsertable:false,",
 						"     truncate:true,",
 						"     format: 'table',",
-						"     staged: true,",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
@@ -1347,13 +1346,14 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     preCommands: [],",
-						"     postCommands: []) ~> dirstaging"
+						"     postCommands: []) ~> SQLSummarySynapse"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2020')]",
 				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollData2021')]",
+				"[concat(variables('factoryId'), '/datasets/SQLNycPayrollSumary')]",
 				"[concat(variables('factoryId'), '/datasets/SQLSummarySynapse')]"
 			]
 		},
