@@ -26,13 +26,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "SQLNycPayrollSumary"
-				},
-				{
-					"dataset": {
-						"referenceName": "SynapseSummary",
-						"type": "DatasetReference"
-					},
-					"name": "SQLSummarySynapse"
 				}
 			],
 			"transformations": [
@@ -177,26 +170,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
-				"aggregateTotalPaid sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     input(",
-				"          FiscalYear as integer,",
-				"          AgencyName as string,",
-				"          TotalPaid as double",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     truncate:true,",
-				"     format: 'table',",
-				"     staged: true,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     preCommands: [],",
-				"     postCommands: []) ~> SQLSummarySynapse"
+				"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary"
 			]
 		}
 	}
