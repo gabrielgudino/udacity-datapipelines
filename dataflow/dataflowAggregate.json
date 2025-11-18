@@ -28,10 +28,6 @@
 					"name": "SQLNycPayrollSumary"
 				},
 				{
-					"dataset": {
-						"referenceName": "AzureSynapseSummary",
-						"type": "DatasetReference"
-					},
 					"name": "SQLSummarySynapse"
 				}
 			],
@@ -180,21 +176,10 @@
 				"     errorHandlingOption: 'stopOnFirstError') ~> SQLNycPayrollSumary",
 				"aggregateTotalPaid sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          FiscalYear as integer,",
-				"          AgencyName as string,",
-				"          TotalPaid as double",
-				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
-				"     truncate:true,",
-				"     format: 'table',",
-				"     staged: true,",
+				"     truncate: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
+				"     format: 'table',",
 				"     preCommands: [],",
 				"     postCommands: []) ~> SQLSummarySynapse"
 			]
